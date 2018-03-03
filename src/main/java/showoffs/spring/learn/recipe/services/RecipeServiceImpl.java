@@ -6,6 +6,7 @@ import showoffs.spring.learn.recipe.models.Recipe;
 import showoffs.spring.learn.recipe.repositories.RecipeRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 @Slf4j
 @Service
@@ -23,5 +24,14 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         log.debug("Size of recipe is " + recipeSet.size());
         return recipeSet;
+    }
+
+    @Override
+    public Recipe findById(long l) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(l);
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Recipe not found");
+        }
+        return recipeOptional.get();
     }
 }
